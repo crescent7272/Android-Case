@@ -8,6 +8,7 @@ import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.androidcase.R;
 import com.example.androidcase.model.AnttPricesRequestModel;
@@ -152,6 +153,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             @Override
             public void onFailure(Call<AnttPricesModel> call, Throwable t) {
+                Log.d("onfailure MapsActivity", t.getMessage() + "");
+                Toast.makeText(MapsActivity.this, "Ocorreu um erro ... Mensagem de erro: "+t.getMessage(), Toast.LENGTH_SHORT).show();
 
             }
         });

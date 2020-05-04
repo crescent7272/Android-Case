@@ -78,66 +78,88 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
 
-                //send data to the API
 
-                List<com.example.androidcase.model.Place> placesList = new ArrayList<>();
+                if(origin.getText() != null && destination.getText() != null
+                        && axles.getText() != null && avgFuelConsumption.getText() != null )
+                {
+                    //send data to the API
 
-                List<Double> originPoints = new ArrayList<>();
-                List<Double> destinationPoints = new ArrayList<>();
+                    List<com.example.androidcase.model.Place> placesList = new ArrayList<>();
+
+                    List<Double> originPoints = new ArrayList<>();
+                    List<Double> destinationPoints = new ArrayList<>();
 
 
 
-                originPoints.add(getLocationFromAddress(origin.getText().toString()).longitude);
-                originPoints.add(getLocationFromAddress(origin.getText().toString()).latitude);
+                    originPoints.add(getLocationFromAddress(origin.getText().toString()).longitude);
+                    originPoints.add(getLocationFromAddress(origin.getText().toString()).latitude);
 
-                destinationPoints.add(getLocationFromAddress(destination.getText().toString()).longitude);
-                destinationPoints.add(getLocationFromAddress(destination.getText().toString()).latitude);
+                    destinationPoints.add(getLocationFromAddress(destination.getText().toString()).longitude);
+                    destinationPoints.add(getLocationFromAddress(destination.getText().toString()).latitude);
 
-                placesList.add(new com.example.androidcase.model.Place(originPoints));
-                placesList.add(new com.example.androidcase.model.Place(destinationPoints));
+                    placesList.add(new com.example.androidcase.model.Place(originPoints));
+                    placesList.add(new com.example.androidcase.model.Place(destinationPoints));
 
-                requestModel.setPlaces(placesList);
-                requestModel.setFuelConsumption(Integer.parseInt(avgFuelConsumption.getText().toString()));
-                requestModel.setFuelPrice(Double.parseDouble(axles.getText().toString()));
-                /** Create handle for the RetrofitInstance interface*/
-                GetNoticeDataService service = RetrofitInstance.getRetrofitInstance(RetrofitInstance.getBaseUrl()).create(GetNoticeDataService.class);
+                    requestModel.setPlaces(placesList);
+                    requestModel.setFuelConsumption(Integer.parseInt(avgFuelConsumption.getText().toString()));
+                    requestModel.setFuelPrice(Double.parseDouble(axles.getText().toString()));
+                    /** Create handle for the RetrofitInstance interface*/
+                    GetNoticeDataService service = RetrofitInstance.getRetrofitInstance(RetrofitInstance.getBaseUrl()).create(GetNoticeDataService.class);
 
-                Gson gson = new Gson();
-                String requestModelString = gson.toJson(requestModel);
+                    Gson gson = new Gson();
+                    String requestModelString = gson.toJson(requestModel);
 
-                requestModel = gson.fromJson(requestModelString, RequestModel.class);
-                /** Call the method with parameter in the interface to get the notice data*/
-                Call<ResponseModel> call = service.getRoute(requestModel);
+                    requestModel = gson.fromJson(requestModelString, RequestModel.class);
+                    /** Call the method with parameter in the interface to get the notice data*/
+                    Call<ResponseModel> call = service.getRoute(requestModel);
 
-                /**Log the URL called*/
-                Log.wtf("URL Called", call.request().url() + " "+ requestModelString);
+                    /**Log the URL called*/
+                    Log.wtf("URL Called", call.request().url() + " "+ requestModelString);
 
-                call.enqueue(new Callback<ResponseModel>() {
+                    call.enqueue(new Callback<ResponseModel>() {
 
-                    @Override
-                    public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
-                        Log.d("URL Called", call.request().url() + "");
+                        @Override
+                        public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
+                            Log.d("URL Called", call.request().url() + "");
 
-                        Gson gson = new Gson();
-                        String responseS = gson.toJson(response.body());
-                        Log.d("URL Called2", responseS + "");
+                            if(response.code() == 200)
+                            {
+                                Gson gson = new Gson();
+                                String responseS = gson.toJson(response.body());
+                                Log.d("URL Called2", responseS + "");
 
-                        Intent intent = new Intent(MainActivity.this, MapsActivity.class);
-                        intent.putExtra("response",responseS);
-                        intent.putExtra("axis",axles.getText().toString());
-                        intent.putExtra("originAddress",origin.getText().toString());
-                        intent.putExtra("destinationAddress",destination.getText().toString());
-                        startActivity(intent);
+                                Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+                                intent.putExtra("response",responseS);
+                                intent.putExtra("axis",axles.getText().toString());
+                                intent.putExtra("originAddress",origin.getText().toString());
+                                intent.putExtra("destinationAddress",destination.getText().toString());
+                                startActivity(intent);
+                            }
 
-                    }
 
-                    @Override
-                    public void onFailure(Call<ResponseModel> call, Throwable t) {
-                        Log.d("onfailure", t.getMessage() + "");
 
-                        Toast.makeText(MainActivity.this, "Something went wrong...Error message: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseModel> call, Throwable t) {
+                            Log.d("onfailure", t.getMessage() + "");
+                            Toast.makeText(MainActivity.this, "Ocorreu um erro ... Mensagem de erro: "+t.getMessage(), Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
+                }
+
+                else
+                {
+                    Toast.makeText(MainActivity.this, "Por favor, preencha os campos. ", Toast.LENGTH_SHORT).show();
+
+
+                }
+
+
+
+
+
 
 
 
