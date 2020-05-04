@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">AndroidCase</string>
+    <string name="pesquisaText">Pesquisa</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="title_originAddress">Origem</string>
+    <string name="title_destinationAddress">Destino</string>
+    <string name="title_axes">Eixos</string>
+    <string name="title_distance">Distância</string>
+    <string name="title_duration">Duração</string>
+    <string name="title_toll">Pedágio</string>
+    <string name="title_fuelRequired">Combustível necessário</string>
+    <string name="title_fuelTotal">Total de combustível</string>
+    <string name="title_total">Total</string>
+    <string name="title_table">Tabela Frete - Preços Mínimos - ANTT</string>
+    <string name="content_general">Geral</string>
+    <string name="content_bulk">Granel</string>
+    <string name="content_neogranel">Neogranel</string>
+    <string name="content_refrigerated">Frigorificada</string>
+    <string name="content_dangerous">Perigosa</string>
+
+    <string name="originText">R. Me. Rita Amada de Jesus, 72</string>
+    <string name="destinationText">R. Padre José de Anchieta, 618</string>
+    <string name="fuelPriceText">3.0</string>
+    <string name="avgFuelConsumptionText">3</string>
+    <string name="calculateText">Calcular Custo R$ </string>
+</resources>
