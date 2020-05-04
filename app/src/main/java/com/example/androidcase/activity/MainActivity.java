@@ -79,8 +79,8 @@ public class MainActivity extends FragmentActivity {
             public void onClick(View v) {
 
 
-                if(origin.getText() != null && destination.getText() != null
-                        && axles.getText() != null && avgFuelConsumption.getText() != null )
+                if(!origin.getText().toString().equals("")  && !destination.getText().toString().equals("")
+                        && !axles.getText().toString().equals("") && !avgFuelConsumption.getText().toString().equals("") )
                 {
                     //send data to the API
 
